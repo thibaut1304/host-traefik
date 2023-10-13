@@ -10,10 +10,11 @@
 		- ACME_EMAIL=email@exemple.com
 	* Information of your providers dns hostname  
 		- CF_API_EMAIL=email@exemple.com
+		- CF_API_TOKEN=token global
 		- PROVIDER=cloudflare
 		- ZONE_IDENTIFIER=74254136543653636536
 		- DOMAIN=exemple.com
-		- TOKEN=6849769359859853653365431
+		- TOKEN=token onnly change ip dns
 
 
 - Run this project with bash init.sh
