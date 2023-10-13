@@ -26,7 +26,7 @@ services:
       - "--providers.docker.exposedByDefault=false"
       - "--certificatesresolvers.letsencrypt-flare.acme.email=${ACME_EMAIL}"
       - "--certificatesresolvers.letsencrypt-flare.acme.storage=/certificates/acme.json"
-      - "--certificatesresolvers.letsencrypt-flare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.letsencrypt-flare.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.provider=cloudflare"
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.delayBeforeCheck=0"
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
@@ -72,3 +72,32 @@ services:
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
+  nginx-nas-video:
+    image: nginx:1.25.2
+    restart: unless-stopped
+    container_name: "nginx-nas-video"
+    volumes:
+      - ./nginx/nginx-nas-video.conf:/etc/nginx/conf.d/default.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx-nas-video.rule=Host(`video.thibaut-husser.com`, `www.video.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-nas-video.entrypoints=web,websecure"
+      - "traefik.http.routers.nginx-nas-video.tls.certresolver=letsencrypt-flare"
+      - "traefik.http.routers.nginx-nas-video.middlewares=nginx-redirect-to-https"
+      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+
+  nginx-nas-file:
+    image: nginx:1.25.2
+    restart: unless-stopped
+    container_name: "nginx-nas-file"
+    volumes:
+      - ./nginx/nginx-nas-file.conf:/etc/nginx/conf.d/default.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx-nas-file.rule=Host(`file.thibaut-husser.com`, `www.file.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-nas-file.entrypoints=web,websecure"
+      - "traefik.http.routers.nginx-nas-file.tls.certresolver=letsencrypt-flare"
+      - "traefik.http.routers.nginx-nas-file.middlewares=nginx-redirect-to-https"
+      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"

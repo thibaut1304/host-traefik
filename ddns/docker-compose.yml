@@ -4,6 +4,7 @@ services:
   ddns-updater:
     image: qmcgaw/ddns-updater
     container_name: ddns-updater
+    restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
