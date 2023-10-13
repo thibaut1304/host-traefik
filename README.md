@@ -14,7 +14,7 @@
 		- PROVIDER=cloudflare
 		- ZONE_IDENTIFIER=74254136543653636536
 		- DOMAIN=exemple.com
-		- TOKEN=token onnly change ip dns
+		- TOKEN=token only change ip dns
 
 
 - Run this project with bash init.sh
