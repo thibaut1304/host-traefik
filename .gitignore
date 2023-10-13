@@ -1,0 +1,9 @@
+*.te
+*.pp
+
+**/build
+**/certificates
+
+**/.env
+
+rules-selinux/

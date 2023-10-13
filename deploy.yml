@@ -1,0 +1,38 @@
+---
+- name: Deploy Docker Compose project
+  hosts: ubuntu-docker
+  become: true
+  tasks:
+    - name: Update system
+      command: apt update
+
+    - name: Ensure git is installed
+      apt:
+        name: git
+        state: present
+
+    - name: Ensure docker is installed
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Ensure docker-compose is installed
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Ensure rsync is installed
+      apt:
+        name: rsync
+        state: present
+
+    - name: Copying app in ubuntu-docker
+      become: false
+      synchronize:
+        src: ./app/
+        dest: "/home/{{ ansible_ssh_user }}/traefik-host"
+
+    - name: Run docker-compose
+      docker_compose:
+        project_src: '/home/{{ ansible_ssh_user }}/traefik-host'
+        state: present
