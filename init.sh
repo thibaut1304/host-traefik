@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source .env
+
 SOURCE_ENV="./.env"
 DEST_ENV_DDNS="./ddns/.env"
 DEST_ENV_APP="./app/.env"
@@ -42,7 +44,7 @@ for VAR in "${VARS_APP[@]}"; do
     fi
 done
 
-ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.1.87"
-ssh-copy-id thibaut@192.168.1.87
+ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${IP_ADDRESS}"
+ssh-copy-id "${USERNAME}@${IP_ADDRESS}"
 
 ansible-playbook -i hosts.yml deploy.yml -K

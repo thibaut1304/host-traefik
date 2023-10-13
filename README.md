@@ -15,3 +15,5 @@
 		- DOMAIN=exemple.com
 		- TOKEN=6849769359859853653365431
 
+
+- Run this project with bash init.sh
