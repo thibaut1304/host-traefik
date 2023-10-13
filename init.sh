@@ -29,7 +29,7 @@ declare -a VARS_APP=(
     "AUTH_USER"
     "ACME_EMAIL"
     "CF_API_EMAIL"
-    "TOKEN"
+    "CF_API_TOKEN"
 )
 
 echo "Build .env file in app"

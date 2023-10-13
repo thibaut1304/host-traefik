@@ -5,7 +5,7 @@
 		"zone_identifier": "ZONE_IDENTIFIER",
 		"domain": "DOMAIN",
 		"host": "@",
-		"ttl": 600,
+		"ttl": 1,
 		"token": "TOKEN",
 		"ip_version": "ipv4"
 	  }

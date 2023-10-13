@@ -13,7 +13,7 @@ services:
       - "./certificates/acme.json:/certificates/acme.json:rw"
     environment:
       - CF_API_EMAIL=${CF_API_EMAIL}
-      - CF_API_KEY=${TOKEN}
+      - CF_API_KEY=${CF_API_TOKEN}
     command:
       - "--log.level=DEBUG"
       - "--api.insecure=false"
