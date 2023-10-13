@@ -1,0 +1,13 @@
+{
+	"settings": [
+	  {
+		"provider": "PROVIDER",
+		"zone_identifier": "ZONE_IDENTIFIER",
+		"domain": "DOMAIN",
+		"host": "@",
+		"ttl": 600,
+		"token": "TOKEN",
+		"ip_version": "ipv4"
+	  }
+	]
+  }
