@@ -1,6 +1,6 @@
 # TODO List
- [x] Test traefik v2.10  
- [ ] Autoriser websocket pour les connections vnc au machines
+- [ ] Test traefik v2.10  
+- [ ] Autoriser websocket pour les connections vnc au machines
 
 # ddns-updater
 
