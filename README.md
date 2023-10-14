@@ -1,5 +1,7 @@
 # TODO List
-- [ ] Test traefik v2.10  
+- [x] New VM on big-brother for test DEV -> 192.168.1.89
+- [x] New domaine for dev test -> dev-traefik.@ and dev-proxmox.@
+- [ ] Test traefik v2.10
 - [ ] Autoriser websocket pour les connections vnc au machines
 
 # ddns-updater
