@@ -11,7 +11,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./certificates/acme.json:/certificates/acme.json:rw"
-      - "./certificates/acme.json:/certificates/acme-home.json:rw"
+      - "./certificates/acme-home.json:/certificates/acme-home.json:rw"
     environment:
       - CF_API_EMAIL=${CF_API_EMAIL}
       - CF_API_KEY=${CF_API_TOKEN}
@@ -32,7 +32,7 @@ services:
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.delayBeforeCheck=0"
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
       - "--certificatesresolvers.letsencrypt-home.acme.email=${ACME_EMAIL}"
-      - "--certificatesresolvers.letsencrypt-home.acme.storage=/certificates/acme-http.json"
+      - "--certificatesresolvers.letsencrypt-home.acme.storage=/certificates/acme-home.json"
       - "--certificatesresolvers.letsencrypt-home.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt-home.acme.httpChallenge.entrypoint=web"
     labels:
