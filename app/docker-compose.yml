@@ -41,6 +41,10 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
+        # Redirect homethibaut.synology.me
+      - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.regex=^https://homethibaut\\.synology\\.me/(.*)"
+      - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.replacement=https://nas.thibaut-husser.com/"
+      - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.permanent=true"
 
   nginx-nas:
     image: nginx:1.25.2
@@ -56,6 +60,10 @@ services:
       - "traefik.http.routers.nginx-nas.middlewares=nginx-redirect-to-https"
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+        # Redirect homethibaut.synology.me
+      - "traefik.http.routers.redirect-homethibaut.rule=Host(`homethibaut.synology.me`)"
+      - "traefik.http.routers.redirect-homethibaut.middlewares=redirect-homethibaut-to-nas"
+      - "traefik.http.routers.redirect-homethibaut.priority=10"
 
   nginx-proxmox:
     image: nginx:1.25.2
@@ -101,3 +109,4 @@ services:
       - "traefik.http.routers.nginx-nas-file.middlewares=nginx-redirect-to-https"
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+
