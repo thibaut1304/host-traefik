@@ -1,5 +1,5 @@
 ---
-- name: Deploy Docker Compose project
+- name: Deploy Docker Compose traefik
   hosts: ubuntu-docker
   become: true
   tasks:
@@ -56,52 +56,17 @@
         dest: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme-home.json"
       when: not acme_home.stat.exists or acme_home.stat.size == 0
 
-    - name: Set permissions to 600 for acme-home.json if it was just created
-      file:
-        path: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme-home.json"
-        mode: '0600'
-      when: not acme_home.stat.exists
+    # - name: Set permissions to 600 for acme-home.json if it was just created
+    #   file:
+    #     path: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme-home.json"
+    #     mode: '0600'
+    #   when: not acme_home.stat.exists
 
-    - name: Set permissions to 600 for acme.json if it was just created
-      file:
-        path: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme.json"
-        mode: '0600'
-      when: not acme_file.stat.exists
-
-    - name: Copying ddns in ubuntu-docker
-      become: false
-      synchronize:
-        src: ./ddns/
-        dest: "/home/{{ ansible_ssh_user }}/ddns-host"
-
-    - name: Execute ddns startup script
-      command: bash /home/{{ ansible_ssh_user }}/ddns-host/conf/startup.sh
-
-    - name: Change owner of ddns/conf/data directory
-      file:
-        path: /home/{{ ansible_ssh_user }}/ddns-host/conf/data
-        owner: 1000
-        recurse: yes
-
-    - name: Update permissions of ddns/conf/data directory
-      file:
-        path: /home/{{ ansible_ssh_user }}/ddns-host/conf/data
-        mode: '0777'
-
-    - name: Update permissions of ddns/conf/data/config.json file
-      file:
-        path: /home/{{ ansible_ssh_user }}/ddns-host/conf/data/config.json
-        mode: '0777'
-
-    - name: Stop docker-compose for ddns
-      docker_compose:
-        project_src: '/home/{{ ansible_ssh_user }}/ddns-host'
-        state: absent
-
-    - name: Start docker-compose for ddns
-      docker_compose:
-        project_src: '/home/{{ ansible_ssh_user }}/ddns-host'
-        state: present
+    # - name: Set permissions to 600 for acme.json if it was just created
+    #   file:
+    #     path: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme.json"
+    #     mode: '0600'
+    #   when: not acme_file.stat.exists
 
     - name: Stop docker-compose for app
       docker_compose:

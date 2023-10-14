@@ -1,0 +1,42 @@
+---
+- name: Deploy Docker compose ddns-updater
+  hosts: ubuntu-docker
+  become: true
+  tasks:
+    - name: Update system
+      command: apt update
+
+    - name: Copying ddns in ubuntu-docker
+      become: false
+      synchronize:
+        src: ./ddns/
+        dest: "/home/{{ ansible_ssh_user }}/ddns-host"
+
+    - name: Execute ddns startup script
+      command: bash /home/{{ ansible_ssh_user }}/ddns-host/conf/startup.sh
+
+    - name: Change owner of ddns/conf/data directory
+      file:
+        path: /home/{{ ansible_ssh_user }}/ddns-host/conf/data
+        owner: 1000
+        recurse: yes
+
+    - name: Update permissions of ddns/conf/data directory
+      file:
+        path: /home/{{ ansible_ssh_user }}/ddns-host/conf/data
+        mode: '0777'
+
+    - name: Update permissions of ddns/conf/data/config.json file
+      file:
+        path: /home/{{ ansible_ssh_user }}/ddns-host/conf/data/config.json
+        mode: '0777'
+
+    - name: Stop docker-compose for ddns
+      docker_compose:
+        project_src: '/home/{{ ansible_ssh_user }}/ddns-host'
+        state: absent
+
+    - name: Start docker-compose for ddns
+      docker_compose:
+        project_src: '/home/{{ ansible_ssh_user }}/ddns-host'
+        state: present
