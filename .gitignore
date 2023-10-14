@@ -2,7 +2,6 @@
 *.pp
 
 **/build
-**/certificates
 
 **/.env
 **/*.crt
