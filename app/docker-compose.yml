@@ -11,7 +11,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./certificates/acme.json:/certificates/acme.json:rw"
-      - "./certificates/acme-home.json:/certificates/acme-home.json:rw"
+      # - "./certificates/acme-home.json:/certificates/acme-home.json:rw"
     environment:
       - CF_API_EMAIL=${CF_API_EMAIL}
       - CF_API_KEY=${CF_API_TOKEN}
@@ -31,25 +31,25 @@ services:
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.provider=cloudflare"
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.delayBeforeCheck=0"
       - "--certificatesresolvers.letsencrypt-flare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
-      - "--certificatesresolvers.letsencrypt-home.acme.email=${ACME_EMAIL}"
-      - "--certificatesresolvers.letsencrypt-home.acme.storage=/certificates/acme-home.json"
-      - "--certificatesresolvers.letsencrypt-home.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.letsencrypt-home.acme.httpChallenge.entrypoint=web"
+      # - "--certificatesresolvers.letsencrypt-home.acme.email=${ACME_EMAIL}"
+      # - "--certificatesresolvers.letsencrypt-home.acme.storage=/certificates/acme-home.json"
+      # - "--certificatesresolvers.letsencrypt-home.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
+      # - "--certificatesresolvers.letsencrypt-home.acme.httpChallenge.entrypoint=web"
     labels:
         # Dashboard
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.thibaut-husser.com`, `www.traefik.thibaut-husser.com`)"
+      - "traefik.http.routers.dashboard.rule=Host(`dev-traefik.thibaut-husser.com`)"
       - "traefik.http.routers.dashboard.entrypoints=web, websecure"
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt-flare"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
-        # Redirect homethibaut.synology.me
-      - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.regex=^https://homethibaut\\.synology\\.me/(.*)"
-      - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.replacement=https://nas.thibaut-husser.com/"
-      - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.permanent=true"
+      #   # Redirect homethibaut.synology.me
+      # - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.regex=^https://homethibaut\\.synology\\.me/(.*)"
+      # - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.replacement=https://nas.thibaut-husser.com/"
+      # - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.permanent=true"
 
   # nginx-nas:
   #   image: nginx:1.25.2
@@ -80,7 +80,7 @@ services:
       - ./nginx/nginx-proxmox.conf:/etc/nginx/conf.d/default.conf
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx-proxy.rule=Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-proxy.rule=Host(`dev-docker.thibaut-husser.com`)"
       - "traefik.http.routers.nginx-proxy.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-proxy.tls.certresolver=letsencrypt-flare"
       - "traefik.http.routers.nginx-proxy.middlewares=nginx-redirect-to-https"

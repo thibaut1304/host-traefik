@@ -1,6 +1,6 @@
 ---
 - name: Deploy Docker Compose traefik
-  hosts: ubuntu-docker
+  hosts: docker-dev
   become: true
   tasks:
     - name: Update system
@@ -36,11 +36,11 @@
         path: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme.json"
       register: acme_file
 
-    - name: Check if certificates/acme-home.json exists and is not empty
-      become: false
-      stat:
-        path: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme-home.json"
-      register: acme_home
+    # - name: Check if certificates/acme-home.json exists and is not empty
+    #   become: false
+    #   stat:
+    #     path: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme-home.json"
+    #   register: acme_home
 
     - name: Synchronize certificates/acme.json if it doesn't exist or is empty
       become: false
@@ -49,12 +49,12 @@
         dest: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme.json"
       when: not acme_file.stat.exists or acme_file.stat.size == 0
 
-    - name: Synchronize certificates/acme-home.json if it doesn't exist or is empty
-      become: false
-      synchronize:
-        src: ./app/certificates/acme-home.json
-        dest: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme-home.json"
-      when: not acme_home.stat.exists or acme_home.stat.size == 0
+    # - name: Synchronize certificates/acme-home.json if it doesn't exist or is empty
+    #   become: false
+    #   synchronize:
+    #     src: ./app/certificates/acme-home.json
+    #     dest: "/home/{{ ansible_ssh_user }}/traefik-host/certificates/acme-home.json"
+    #   when: not acme_home.stat.exists or acme_home.stat.size == 0
 
     # - name: Set permissions to 600 for acme-home.json if it was just created
     #   file:
