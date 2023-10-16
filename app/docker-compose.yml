@@ -87,20 +87,20 @@ services:
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
-  # nginx-nas-video:
-  #   image: nginx:1.25.2
-  #   restart: unless-stopped
-  #   container_name: "nginx-nas-video"
-  #   volumes:
-  #     - ./nginx/nginx-nas-video.conf:/etc/nginx/conf.d/default.conf
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.nginx-nas-video.rule=Host(`video.thibaut-husser.com`, `www.video.thibaut-husser.com`)"
-  #     - "traefik.http.routers.nginx-nas-video.entrypoints=web,websecure"
-  #     - "traefik.http.routers.nginx-nas-video.tls.certresolver=letsencrypt-flare"
-  #     - "traefik.http.routers.nginx-nas-video.middlewares=nginx-redirect-to-https"
-  #     - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-  #     - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+  nginx-nas-video:
+    image: nginx:1.25.2
+    restart: unless-stopped
+    container_name: "nginx-nas-video"
+    volumes:
+      - ./nginx/nginx-nas-video.conf:/etc/nginx/conf.d/default.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx-nas-video.rule=Host(`dev-video.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-nas-video.entrypoints=web,websecure"
+      - "traefik.http.routers.nginx-nas-video.tls.certresolver=letsencrypt-flare"
+      - "traefik.http.routers.nginx-nas-video.middlewares=nginx-redirect-to-https"
+      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
   # nginx-nas-file:
   #   image: nginx:1.25.2
