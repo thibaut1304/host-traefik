@@ -23,6 +23,7 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedByDefault=false"
       - "--certificatesresolvers.letsencrypt-flare.acme.email=${ACME_EMAIL}"
@@ -42,8 +43,8 @@ services:
       - "traefik.http.routers.dashboard.rule=Host(`traefik.thibaut-husser.com`, `www.traefik.thibaut-husser.com`)"
       - "traefik.http.routers.dashboard.entrypoints=web, websecure"
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt-flare"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+      # - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
         # Redirect homethibaut.synology.me
@@ -62,9 +63,9 @@ services:
       - "traefik.http.routers.nginx-nas.rule=Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`)"
       - "traefik.http.routers.nginx-nas.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-nas.tls.certresolver=letsencrypt-flare"
-      - "traefik.http.routers.nginx-nas.middlewares=nginx-redirect-to-https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+      # - "traefik.http.routers.nginx-nas.middlewares=nginx-redirect-to-https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
         # Redirect homethibaut.synology.me
       - "traefik.http.routers.redirect-homethibaut.rule=Host(`homethibaut.synology.me`)"
       - "traefik.http.routers.redirect-homethibaut.entrypoints=web,websecure"
@@ -83,9 +84,9 @@ services:
       - "traefik.http.routers.nginx-proxy.rule=Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`)"
       - "traefik.http.routers.nginx-proxy.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-proxy.tls.certresolver=letsencrypt-flare"
-      - "traefik.http.routers.nginx-proxy.middlewares=nginx-redirect-to-https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+      # - "traefik.http.routers.nginx-proxy.middlewares=nginx-redirect-to-https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
   nginx-nas-video:
     image: nginx:1.25.2
@@ -98,9 +99,9 @@ services:
       - "traefik.http.routers.nginx-nas-video.rule=Host(`video.thibaut-husser.com`, `www.video.thibaut-husser.com`)"
       - "traefik.http.routers.nginx-nas-video.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-nas-video.tls.certresolver=letsencrypt-flare"
-      - "traefik.http.routers.nginx-nas-video.middlewares=nginx-redirect-to-https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+      # - "traefik.http.routers.nginx-nas-video.middlewares=nginx-redirect-to-https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
   nginx-nas-file:
     image: nginx:1.25.2
@@ -113,7 +114,36 @@ services:
       - "traefik.http.routers.nginx-nas-file.rule=Host(`file.thibaut-husser.com`, `www.file.thibaut-husser.com`)"
       - "traefik.http.routers.nginx-nas-file.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-nas-file.tls.certresolver=letsencrypt-flare"
-      - "traefik.http.routers.nginx-nas-file.middlewares=nginx-redirect-to-https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+      # - "traefik.http.routers.nginx-nas-file.middlewares=nginx-redirect-to-https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
+  nginx-cv:
+    image: nginx:1.25.2
+    restart: unless-stopped
+    container_name: "nginx-cv"
+    volumes:
+      - ./nginx/cv:/usr/share/nginx/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx-cv.rule=Host(`cv.thibaut-husser.com`, `www.cv.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-cv.entrypoints=web,websecure"
+      - "traefik.http.routers.nginx-cv.tls.certresolver=letsencrypt-flare"
+      # - "traefik.http.routers.nginx-cv.middlewares=nginx-redirect-to-https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+
+  nginx-synapse:
+    image: nginx:1.25.2
+    restart: unless-stopped
+    container_name: "nginx-synapse"
+    volumes:
+      - ./nginx/nginx-synapse.conf:/etc/nginx/conf.d/default.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx-synapse.rule=Host(`matrix.thibaut-husser.com`, `www.matrix.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-synapse.entrypoints=web,websecure"
+      - "traefik.http.routers.nginx-synapse.tls.certresolver=letsencrypt-flare"
+      # - "traefik.http.routers.nginx-synapse.middlewares=nginx-redirect-to-https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
