@@ -48,4 +48,5 @@ ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${IP_ADDRESS}"
 ssh-copy-id "${USERNAME}@${IP_ADDRESS}"
 
 ansible-playbook -i hosts.yml deploy-traefik.yml -K
-ansible-playbook -i hosts.yml deploy-ddns.yml -K
+# ansible-playbook -i hosts.yml deploy-ddns.yml -K
+

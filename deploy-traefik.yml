@@ -72,6 +72,11 @@
       docker_compose:
         project_src: '/home/{{ ansible_ssh_user }}/traefik-host'
         state: absent
+        remove_orphans: yes
+
+    - name: Attente 10s pour arrêt complet
+      pause:
+        seconds: 10
 
     - name: Start docker-compose for app
       docker_compose:
