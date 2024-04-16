@@ -37,6 +37,9 @@ services:
       - "--certificatesresolvers.letsencrypt-home.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt-home.acme.httpChallenge.entrypoint=web"
     labels:
+      - "traefik.http.middlewares.hstsheaders.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.hstsheaders.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.hstsheaders.headers.stsPreload=true"
         # Dashboard
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.service=api@internal"
@@ -51,6 +54,7 @@ services:
       # - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.regex=^https://homethibaut\\.synology\\.me/(.*)"
       # - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.replacement=https://nas.thibaut-husser.com/"
       # - "traefik.http.middlewares.redirect-homethibaut-to-nas.redirectregex.permanent=true"
+
 
   nginx-nas:
     image: nginx:1.25.2
@@ -177,6 +181,7 @@ services:
       # - "traefik.http.routers.nginx-nextcloud.middlewares=nginx-redirect-to-https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.routers.nginx-nextcloud.middlewares=hstsheaders@docker"
 
   nginx-bitwarden:
     image: nginx:1.25.2
