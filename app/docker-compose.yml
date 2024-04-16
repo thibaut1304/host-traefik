@@ -50,7 +50,9 @@ services:
       # - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
-
+      - "traefik.frontend.redirect.permanent=true"
+      - "traefik.frontend.redirect.regex=https://(.*)/.well-known/(?:card|cal)dav"
+      - "traefik.frontend.redirect.replacement=https://$$1/remote.php/dav"
 
   nginx-nas:
     image: nginx:1.25.2
@@ -138,7 +140,11 @@ services:
       # - "traefik.http.routers.nginx-nextcloud.middlewares=nginx-redirect-to-https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
-      - "traefik.http.routers.nginx-nextcloud.middlewares=hstsheaders@docker"
+      - "traefik.http.routers.nginx-nextcloud.middlewares=hstsheaders@docker,nextcloud-dav"
+      # - "traefik.http.routers.nextcloud.middlewares=nextcloud_redirectregex"
+      # - "traefik.http.nextcloud.middlewares.redirectregex.permanent=true"
+      - "traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav"
+      - "traefik.http.middlewares.nextcloud-dav.replacepathregex.replacement=/remote.php/dav/"
 
   nginx-bitwarden:
     image: nginx:1.25.2
