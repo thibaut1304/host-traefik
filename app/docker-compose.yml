@@ -146,17 +146,17 @@ services:
       - "traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav"
       - "traefik.http.middlewares.nextcloud-dav.replacepathregex.replacement=/remote.php/dav/"
 
-  nginx-bitwarden:
+  nginx-vaultwarden:
     image: nginx:1.25.2
     restart: unless-stopped
-    container_name: "nginx-bitwarden"
+    container_name: "nginx-vaultwarden"
     volumes:
-      - ./nginx/nginx-bitwarden.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx-vaultwarden.conf:/etc/nginx/conf.d/default.conf
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx-bitwarden.rule=Host(`bitwarden.thibaut-husser.com`, `www.bitwarden.thibaut-husser.com`)"
-      - "traefik.http.routers.nginx-bitwarden.entrypoints=web,websecure"
-      - "traefik.http.routers.nginx-bitwarden.tls.certresolver=letsencrypt-flare"
-      # - "traefik.http.routers.nginx-bitwarden.middlewares=nginx-redirect-to-https"
+      - "traefik.http.routers.nginx-vaultwarden.rule=Host(`bitwarden.thibaut-husser.com`, `www.bitwarden.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-vaultwarden.entrypoints=web,websecure"
+      - "traefik.http.routers.nginx-vaultwarden.tls.certresolver=letsencrypt-flare"
+      # - "traefik.http.routers.nginx-vaultwarden.middlewares=nginx-redirect-to-https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
