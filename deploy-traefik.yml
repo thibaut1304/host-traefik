@@ -2,7 +2,7 @@
 - name: Deploy Docker Compose traefik
   hosts: ubuntu-docker
   vars_files:
-    - secrest.yml
+    - credentials.yml
   become: true
   tasks:
     - name: Update system
