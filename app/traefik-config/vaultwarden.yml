@@ -1,0 +1,36 @@
+http:
+  routers:
+    vaultwarden:
+      rule: "Host(`bitwarden.thibaut-husser.com`, `www.bitwarden.thibaut-husser.com`)"
+      entryPoints:
+        - websecure
+      service: vaultwarden_service
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers
+        - compress
+        - websocket
+
+  services:
+    vaultwarden_service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.93:80"
+
+  middlewares:
+    headers:
+      headers:
+        customRequestHeaders:
+          Host: "bitwarden.thibaut-husser.com"
+        contentTypeNosniff: true
+        browserXssFilter: true
+
+    compress:
+      compress: {}
+
+    websocket:
+      headers:
+        customRequestHeaders:
+          Connection: Upgrade
+          Upgrade: WebSocket

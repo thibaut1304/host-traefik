@@ -1,0 +1,29 @@
+http:
+  routers:
+    portainer:
+      rule: "Host(`portainer.thibaut-husser.com`, `www.portainer.thibaut-husser.com`)"
+      entryPoints:
+        - websecure
+      service: portainer_service
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers
+        - compress
+
+  services:
+    portainer_service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.93:9000"
+
+  middlewares:
+    headers:
+      headers:
+        customRequestHeaders:
+          Host: "portainer.thibaut-husser.com"
+        contentTypeNosniff: true
+        browserXssFilter: true
+
+    compress:
+      compress: {}

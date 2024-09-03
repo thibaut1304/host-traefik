@@ -1,0 +1,29 @@
+http:
+  routers:
+    matrix:
+      rule: "Host(`matrix.thibaut-husser.com`, `www.matrix.thibaut-husser.com`)"
+      entryPoints:
+        - websecure
+      service: matrix_service
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers
+        - compress
+
+  services:
+    matrix_service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.93:8008"
+
+  middlewares:
+    headers:
+      headers:
+        customRequestHeaders:
+          Host: "matrix.thibaut-husser.com"
+        contentTypeNosniff: true
+        browserXssFilter: true
+
+    compress:
+      compress: {}
