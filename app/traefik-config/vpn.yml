@@ -1,37 +1,29 @@
 http:
   routers:
-    truenas:
-      rule: "Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`)"
+    vpn:
+      rule: "Host(`vpn.thibaut-husser.com`, `www.vpn.thibaut-husser.com`)"
       entryPoints:
         - websecure
-      service: truenas_service
+      service: vpn_service
       tls:
         certresolver: letsencrypt-flare
       middlewares:
         - headers
         - compress
-        # - websocket
 
   services:
-    truenas_service:
+    vpn_service:
       loadBalancer:
         servers:
-          - url: "http://192.168.1.84"
+          - url: "http://192.168.1.93:51821"
 
   middlewares:
     headers:
       headers:
         customRequestHeaders:
-          Host: "nas.thibaut-husser.com"
+          Host: "vpn.thibaut-husser.com"
         contentTypeNosniff: true
         browserXssFilter: true
 
     compress:
       compress: {}
-
-    # websocket:
-    #   headers:
-    #     customRequestHeaders:
-    #       Connection: Upgrade
-    #       Upgrade: WebSocket
-
