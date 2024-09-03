@@ -8,9 +8,9 @@ http:
       tls:
         certresolver: letsencrypt-flare
       middlewares:
-        - headers
-        - compress
-        - websocket
+        - headers-vaultwarden
+        - compress-vaultwarden
+        - websocket-vaultwarden
 
   services:
     vaultwarden_service:
@@ -19,17 +19,17 @@ http:
           - url: "http://192.168.1.93:80"
 
   middlewares:
-    headers:
+    headers-vaultwarden:
       headers:
         customRequestHeaders:
           Host: "bitwarden.thibaut-husser.com"
         contentTypeNosniff: true
         browserXssFilter: true
 
-    compress:
+    compress-vaultwarden:
       compress: {}
 
-    websocket:
+    websocket-vaultwarden:
       headers:
         customRequestHeaders:
           Connection: Upgrade

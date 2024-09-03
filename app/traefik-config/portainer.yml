@@ -8,8 +8,8 @@ http:
       tls:
         certresolver: letsencrypt-flare
       middlewares:
-        - headers
-        - compress
+        - headers-portainer
+        - compress-portainer
 
   services:
     portainer_service:
@@ -18,12 +18,12 @@ http:
           - url: "http://192.168.1.93:9000"
 
   middlewares:
-    headers:
+    headers-portainer:
       headers:
         customRequestHeaders:
           Host: "portainer.thibaut-husser.com"
         contentTypeNosniff: true
         browserXssFilter: true
 
-    compress:
+    compress-portainer:
       compress: {}

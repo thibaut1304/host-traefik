@@ -8,9 +8,9 @@ http:
       tls:
         certresolver: letsencrypt-flare
       middlewares:
-        - headers
-        - compress
-        # - websocket
+        - headers-truenas
+        - compress-truenas
+        - websocket-truenas
 
   services:
     truenas_service:
@@ -24,19 +24,19 @@ http:
       insecureSkipVerify: true
 
   middlewares:
-    headers:
+    headers-truenas:
       headers:
         customRequestHeaders:
           Host: "nas.thibaut-husser.com"
         contentTypeNosniff: true
         browserXssFilter: true
 
-    compress:
+    compress-truenas:
       compress: {}
 
-    # websocket:
-    #   headers:
-    #     customRequestHeaders:
-    #       Connection: Upgrade
-    #       Upgrade: WebSocket
+    websocket-truenas:
+      headers:
+        customRequestHeaders:
+          Connection: Upgrade
+          Upgrade: WebSocket
 

@@ -9,7 +9,8 @@ http:
         certResolver: letsencrypt-flare
       middlewares:
         - "nextcloud-headers"
-        - "redirect-to-https"
+        - "nextcloud-dav"
+        - "redirect-to-https-nextcloud"
   services:
     nextcloud_service:
       loadBalancer:
@@ -17,7 +18,7 @@ http:
           - url: "http://192.168.1.84:9001"
 
   middlewares:
-    redirect-to-https:
+    redirect-to-https-nextcloud:
       redirectScheme:
         scheme: https
         permanent: true
@@ -34,4 +35,4 @@ http:
         browserXssFilter: true
         forceSTSHeader: true
         frameDeny: true  # Attention a re mettre si header de websockets !
-        
+

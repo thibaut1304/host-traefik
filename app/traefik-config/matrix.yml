@@ -8,8 +8,8 @@ http:
       tls:
         certresolver: letsencrypt-flare
       middlewares:
-        - headers
-        - compress
+        - headers-matrix
+        - compress-matrix
 
   services:
     matrix_service:
@@ -18,12 +18,12 @@ http:
           - url: "http://192.168.1.93:8008"
 
   middlewares:
-    headers:
+    headers-matrix:
       headers:
         customRequestHeaders:
           Host: "matrix.thibaut-husser.com"
         contentTypeNosniff: true
         browserXssFilter: true
 
-    compress:
+    compress-matrix:
       compress: {}

@@ -8,8 +8,8 @@ http:
       tls:
         certresolver: letsencrypt-flare
       middlewares:
-        - headers
-        - compress
+        - headers-vpn
+        - compress-vpn
 
   services:
     vpn_service:
@@ -18,12 +18,12 @@ http:
           - url: "http://192.168.1.93:51821"
 
   middlewares:
-    headers:
+    headers-vpn:
       headers:
         customRequestHeaders:
           Host: "vpn.thibaut-husser.com"
         contentTypeNosniff: true
         browserXssFilter: true
 
-    compress:
+    compress-vpn:
       compress: {}
