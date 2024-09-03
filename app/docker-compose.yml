@@ -57,18 +57,6 @@ services:
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
 
-  # nginx-nas:
-  #   image: nginx:1.25.2
-  #   restart: unless-stopped
-  #   container_name: "nginx-nas"
-  #   volumes:
-  #     - ./nginx/nginx-nas.conf:/etc/nginx/conf.d/default.conf
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.nginx-nas.rule=Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`)"
-  #     - "traefik.http.routers.nginx-nas.entrypoints=web,websecure"
-  #     - "traefik.http.routers.nginx-nas.tls.certresolver=letsencrypt-flare"
-
   nginx-vpn:
     image: nginx:1.25.2
     restart: unless-stopped
@@ -80,21 +68,6 @@ services:
       - "traefik.http.routers.nginx-vpn.rule=Host(`vpn.thibaut-husser.com`, `www.vpn.thibaut-husser.com`)"
       - "traefik.http.routers.nginx-vpn.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-vpn.tls.certresolver=letsencrypt-flare"
-
-  # nginx-proxmox:
-  #   image: nginx:1.25.2
-  #   restart: unless-stopped
-  #   container_name: "nginx-proxmox"
-  #   volumes:
-  #     - ./nginx/nginx-proxmox.conf:/etc/nginx/conf.d/default.conf
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.nginx-proxy.rule=Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`)"
-  #     - "traefik.http.routers.nginx-proxy.entrypoints=web,websecure"
-  #     - "traefik.http.routers.nginx-proxy.tls.certresolver=letsencrypt-flare"
-  #     # - "traefik.http.routers.nginx-proxy.middlewares=nginx-redirect-to-https"
-  #     # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-  #     # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
   nginx-cv:
     image: nginx:1.25.2

@@ -23,10 +23,6 @@ http:
       headers:
         customRequestHeaders:
           Host: "nas.thibaut-husser.com"
-        sslRedirect: true
-        sslForceHost: true
-        sslHost: "nas.thibaut-husser.com"
-        frameDeny: true
         contentTypeNosniff: true
         browserXssFilter: true
 

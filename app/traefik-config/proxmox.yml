@@ -28,10 +28,6 @@ http:
       headers:
         customRequestHeaders:
           Host: "proxmox.thibaut-husser.com"
-        sslRedirect: true
-        sslForceHost: true
-        sslHost: "proxmox.thibaut-husser.com"
-        frameDeny: true
         contentTypeNosniff: true
         browserXssFilter: true
 
@@ -41,5 +37,5 @@ http:
     websocket:
       headers:
         customRequestHeaders:
-          Connection: "upgrade"
-          Upgrade: "websocket"
+          Connection: Upgrade
+          Upgrade: WebSocket
