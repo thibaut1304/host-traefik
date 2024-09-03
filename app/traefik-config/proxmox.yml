@@ -1,0 +1,45 @@
+http:
+  routers:
+    proxmox:
+      rule: "Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`)"
+      entryPoints:
+        - websecure
+      service: proxmox_service
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers
+        - compress
+        - websocket
+
+  services:
+    proxmox_service:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.78:8006"
+        serversTransport: "pve"
+
+  serversTransports:
+    pve:
+      insecureSkipVerify: true
+
+  middlewares:
+    headers:
+      headers:
+        customRequestHeaders:
+          Host: "proxmox.thibaut-husser.com"
+        sslRedirect: true
+        sslForceHost: true
+        sslHost: "proxmox.thibaut-husser.com"
+        frameDeny: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+
+    compress:
+      compress: {}
+
+    websocket:
+      headers:
+        customRequestHeaders:
+          Connection: "upgrade"
+          Upgrade: "websocket"

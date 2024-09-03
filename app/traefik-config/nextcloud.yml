@@ -1,0 +1,36 @@
+http:
+  routers:
+    nextcloud:
+      rule: "Host(`nextcloud.thibaut-husser.com`, `www.nextcloud.thibaut-husser.com`)"
+      entryPoints:
+        - websecure
+      service: nextcloud_service
+      tls:
+        certResolver: letsencrypt-flare
+      middlewares:
+        - "nextcloud-headers"
+        - "redirect-to-https"
+  services:
+    nextcloud_service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.84:9001"
+
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    nextcloud-dav:
+      replacePathRegex:
+        regex: "^/.well-known/ca(l|rd)dav"
+        replacement: "/remote.php/dav/"
+    nextcloud-headers:
+      headers:
+        # cookie:
+        #   secure: true
+        #   samesite: "None"
+        customFrameOptionsValue: "SAMEORIGIN"
+        browserXssFilter: true
+        forceSTSHeader: true
+        frameDeny: true

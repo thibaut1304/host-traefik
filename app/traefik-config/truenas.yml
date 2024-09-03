@@ -1,0 +1,40 @@
+http:
+  routers:
+    truenas:
+      rule: "Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`)"
+      entryPoints:
+        - websecure
+      service: truenas_service
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers
+        - compress
+        - websocket
+
+  services:
+    truenas_service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.84"
+
+  middlewares:
+    headers:
+      headers:
+        customRequestHeaders:
+          Host: "nas.thibaut-husser.com"
+        sslRedirect: true
+        sslForceHost: true
+        sslHost: "nas.thibaut-husser.com"
+        frameDeny: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+
+    compress:
+      compress: {}
+
+    websocket:
+      headers:
+        customRequestHeaders:
+          Connection: "upgrade"
+          Upgrade: "websocket"

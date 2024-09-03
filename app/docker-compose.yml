@@ -12,10 +12,13 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./certificates/acme.json:/certificates/acme.json:rw"
       - "./certificates/acme-home.json:/certificates/acme-home.json:rw"
+      - "./traefik-config:/etc/traefik"
+      - "./log/traefik-service.log:/var/log/traefik/traefik-service.log"
     environment:
       - CF_API_EMAIL=${CF_API_EMAIL}
       - CF_API_KEY=${CF_API_TOKEN}
     command:
+      - "--log.filePath=/var/log/traefik/traefik-service.log"
       - "--log.level=DEBUG"
       - "--api.insecure=false"
       - "--api.dashboard=true"
@@ -26,6 +29,8 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=/etc/traefik"
+      - "--providers.file.watch=true"
       - "--certificatesresolvers.letsencrypt-flare.acme.email=${ACME_EMAIL}"
       - "--certificatesresolvers.letsencrypt-flare.acme.storage=/certificates/acme.json"
       - "--certificatesresolvers.letsencrypt-flare.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
@@ -40,6 +45,7 @@ services:
       - "traefik.http.middlewares.hstsheaders.headers.stsSeconds=31536000"
       - "traefik.http.middlewares.hstsheaders.headers.stsIncludeSubdomains=true"
       - "traefik.http.middlewares.hstsheaders.headers.stsPreload=true"
+
         # Dashboard
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.service=api@internal"
@@ -50,21 +56,18 @@ services:
       # - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
-      - "traefik.frontend.redirect.permanent=true"
-      - "traefik.frontend.redirect.regex=https://(.*)/.well-known/(?:card|cal)dav"
-      - "traefik.frontend.redirect.replacement=https://$$1/remote.php/dav"
 
-  nginx-nas:
-    image: nginx:1.25.2
-    restart: unless-stopped
-    container_name: "nginx-nas"
-    volumes:
-      - ./nginx/nginx-nas.conf:/etc/nginx/conf.d/default.conf
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx-nas.rule=Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`)"
-      - "traefik.http.routers.nginx-nas.entrypoints=web,websecure"
-      - "traefik.http.routers.nginx-nas.tls.certresolver=letsencrypt-flare"
+  # nginx-nas:
+  #   image: nginx:1.25.2
+  #   restart: unless-stopped
+  #   container_name: "nginx-nas"
+  #   volumes:
+  #     - ./nginx/nginx-nas.conf:/etc/nginx/conf.d/default.conf
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.nginx-nas.rule=Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`)"
+  #     - "traefik.http.routers.nginx-nas.entrypoints=web,websecure"
+  #     - "traefik.http.routers.nginx-nas.tls.certresolver=letsencrypt-flare"
 
   nginx-vpn:
     image: nginx:1.25.2
@@ -78,20 +81,20 @@ services:
       - "traefik.http.routers.nginx-vpn.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-vpn.tls.certresolver=letsencrypt-flare"
 
-  nginx-proxmox:
-    image: nginx:1.25.2
-    restart: unless-stopped
-    container_name: "nginx-proxmox"
-    volumes:
-      - ./nginx/nginx-proxmox.conf:/etc/nginx/conf.d/default.conf
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx-proxy.rule=Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`)"
-      - "traefik.http.routers.nginx-proxy.entrypoints=web,websecure"
-      - "traefik.http.routers.nginx-proxy.tls.certresolver=letsencrypt-flare"
-      # - "traefik.http.routers.nginx-proxy.middlewares=nginx-redirect-to-https"
-      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+  # nginx-proxmox:
+  #   image: nginx:1.25.2
+  #   restart: unless-stopped
+  #   container_name: "nginx-proxmox"
+  #   volumes:
+  #     - ./nginx/nginx-proxmox.conf:/etc/nginx/conf.d/default.conf
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.nginx-proxy.rule=Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`)"
+  #     - "traefik.http.routers.nginx-proxy.entrypoints=web,websecure"
+  #     - "traefik.http.routers.nginx-proxy.tls.certresolver=letsencrypt-flare"
+  #     # - "traefik.http.routers.nginx-proxy.middlewares=nginx-redirect-to-https"
+  #     # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+  #     # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
   nginx-cv:
     image: nginx:1.25.2
@@ -138,25 +141,25 @@ services:
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
 
-  nginx-nextcloud:
-    image: nginx:1.25.2
-    restart: unless-stopped
-    container_name: "nginx-nextcloud"
-    volumes:
-      - ./nginx/nginx-nextcloud.conf:/etc/nginx/conf.d/default.conf
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx-nextcloud.rule=Host(`nextcloud.thibaut-husser.com`, `www.nextcloud.thibaut-husser.com`)"
-      - "traefik.http.routers.nginx-nextcloud.entrypoints=web,websecure"
-      - "traefik.http.routers.nginx-nextcloud.tls.certresolver=letsencrypt-flare"
-      # - "traefik.http.routers.nginx-nextcloud.middlewares=nginx-redirect-to-https"
-      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
-      # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
-      - "traefik.http.routers.nginx-nextcloud.middlewares=hstsheaders@docker,nextcloud-dav"
-      # - "traefik.http.routers.nextcloud.middlewares=nextcloud_redirectregex"
-      # - "traefik.http.nextcloud.middlewares.redirectregex.permanent=true"
-      - "traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav"
-      - "traefik.http.middlewares.nextcloud-dav.replacepathregex.replacement=/remote.php/dav/"
+  # nginx-nextcloud:
+  #   image: nginx:1.25.2
+  #   restart: unless-stopped
+  #   container_name: "nginx-nextcloud"
+  #   volumes:
+  #     - ./nginx/nginx-nextcloud.conf:/etc/nginx/conf.d/default.conf
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.nginx-nextcloud.rule=Host(`nextcloud.thibaut-husser.com`, `www.nextcloud.thibaut-husser.com`)"
+  #     - "traefik.http.routers.nginx-nextcloud.entrypoints=web,websecure"
+  #     - "traefik.http.routers.nginx-nextcloud.tls.certresolver=letsencrypt-flare"
+  #     # - "traefik.http.routers.nginx-nextcloud.middlewares=nginx-redirect-to-https"
+  #     # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
+  #     # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
+  #     - "traefik.http.routers.nginx-nextcloud.middlewares=hstsheaders@docker,nextcloud-dav"
+  #     # - "traefik.http.routers.nextcloud.middlewares=nextcloud_redirectregex"
+  #     # - "traefik.http.nextcloud.middlewares.redirectregex.permanent=true"
+  #     - "traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav"
+  #     - "traefik.http.middlewares.nextcloud-dav.replacepathregex.replacement=/remote.php/dav/"
 
   nginx-vaultwarden:
     image: nginx:1.25.2
