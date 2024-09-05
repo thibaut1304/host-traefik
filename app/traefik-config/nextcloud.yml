@@ -35,4 +35,6 @@ http:
         browserXssFilter: true
         forceSTSHeader: true
         frameDeny: true  # Attention a re mettre si header de websockets !
-
+        stsSeconds: 15552000
+        stsIncludeSubdomains: true
+        stsPreload: true

@@ -42,9 +42,9 @@ services:
       - "--certificatesresolvers.letsencrypt-home.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt-home.acme.httpChallenge.entrypoint=web"
     labels:
-      - "traefik.http.middlewares.hstsheaders.headers.stsSeconds=31536000"
-      - "traefik.http.middlewares.hstsheaders.headers.stsIncludeSubdomains=true"
-      - "traefik.http.middlewares.hstsheaders.headers.stsPreload=true"
+      # - "traefik.http.middlewares.hstsheaders.headers.stsSeconds=15552000"
+      # - "traefik.http.middlewares.hstsheaders.headers.stsIncludeSubdomains=true"
+      # - "traefik.http.middlewares.hstsheaders.headers.stsPreload=true"
 
         # Dashboard
       - "traefik.enable=true"
