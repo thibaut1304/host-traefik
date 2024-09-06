@@ -9,7 +9,8 @@ http:
         certresolver: letsencrypt-flare
       middlewares:
         - headers-portainer
-        - compress-portainer
+        - compress
+        - secure-headers
 
   services:
     portainer_service:
@@ -23,7 +24,3 @@ http:
         customRequestHeaders:
           Host: "portainer.thibaut-husser.com"
         contentTypeNosniff: true
-        browserXssFilter: true
-
-    compress-portainer:
-      compress: {}

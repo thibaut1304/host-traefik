@@ -42,10 +42,6 @@ services:
       - "--certificatesresolvers.letsencrypt-home.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt-home.acme.httpChallenge.entrypoint=web"
     labels:
-      # - "traefik.http.middlewares.hstsheaders.headers.stsSeconds=15552000"
-      # - "traefik.http.middlewares.hstsheaders.headers.stsIncludeSubdomains=true"
-      # - "traefik.http.middlewares.hstsheaders.headers.stsPreload=true"
-
         # Dashboard
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.service=api@internal"
@@ -56,6 +52,12 @@ services:
       # - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
+
+      ## Gestion domaine principale - Desactivation
+      - "traefik.http.routers.main-domain.rule=Host(`thibaut-husser.com`)"
+      - "traefik.http.routers.main-domain.entrypoints=web,websecure"
+      - "traefik.http.routers.main-domain.tls=false"
+      - "traefik.http.routers.main-domain.service=noop@internal"
 
   nginx-cv:
     image: nginx:1.25.2

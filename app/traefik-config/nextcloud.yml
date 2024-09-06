@@ -11,6 +11,8 @@ http:
         - "nextcloud-headers"
         - "nextcloud-dav"
         - "redirect-to-https-nextcloud"
+        - "secure-headers"
+        
   services:
     nextcloud_service:
       loadBalancer:
@@ -32,9 +34,9 @@ http:
         #   secure: true
         #   samesite: "None"
         customFrameOptionsValue: "SAMEORIGIN"
-        browserXssFilter: true
         forceSTSHeader: true
         frameDeny: true  # Attention a re mettre si header de websockets !
-        stsSeconds: 15552000
-        stsIncludeSubdomains: true
-        stsPreload: true
+        # stsSeconds: 15552000
+        # stsIncludeSubdomains: true
+        # stsPreload: true
+        # browserXssFilter: true

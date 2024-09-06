@@ -9,8 +9,9 @@ http:
         certresolver: letsencrypt-flare
       middlewares:
         - headers-proxmox
-        - compress-proxmox
-        - websocket-proxmox
+        - compress
+        - websocket
+        - secure-headers
 
   services:
     proxmox_service:
@@ -29,13 +30,4 @@ http:
         customRequestHeaders:
           Host: "proxmox.thibaut-husser.com"
         contentTypeNosniff: true
-        browserXssFilter: true
 
-    compress-proxmox:
-      compress: {}
-
-    websocket-proxmox:
-      headers:
-        customRequestHeaders:
-          Connection: Upgrade
-          Upgrade: WebSocket
