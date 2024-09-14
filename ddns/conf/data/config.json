@@ -8,6 +8,15 @@
 		"ttl": 1,
 		"token": "TOKEN",
 		"ip_version": "ipv4"
+	  },
+	  {
+		"provider": "PROVIDER",
+		"zone_identifier": "ZONE_IDENTIFIER",
+		"domain": "DOMAIN2",
+		"host": "@",
+		"ttl": 1,
+		"token": "TOKEN",
+		"ip_version": "ipv4"
 	  }
 	]
   }
