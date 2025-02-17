@@ -1,7 +1,7 @@
 http:
   routers:
     truenas:
-      rule: "Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`)"
+      rule: "Host(`nas.thibaut-husser.com`, `www.nas.thibaut-husser.com`, `nas.thusser.com`, `www.nas.thusser.com`)"
       entryPoints:
         - websecure
       service: truenas_service

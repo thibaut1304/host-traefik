@@ -1,7 +1,7 @@
 http:
   routers:
     portainer:
-      rule: "Host(`portainer.thibaut-husser.com`, `www.portainer.thibaut-husser.com`)"
+      rule: "Host(`portainer.thibaut-husser.com`, `www.portainer.thibaut-husser.com`, `portainer.thusser.com`, `www.portainer.thusser.com`)"
       entryPoints:
         - websecure
       service: portainer_service

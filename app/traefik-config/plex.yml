@@ -1,0 +1,34 @@
+http:
+  routers:
+    plex:
+      rule: "Host(`plex.thibaut-husser.com`, `www.plex.thibaut-husser.com`, `plex.thusser.com`, `www.plex.thusser.com`)"
+      entryPoints:
+        - websecure
+      service: plex_service
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers-plex
+        - compress
+        - websocket
+        - secure-headers
+        - redirect-plex-web
+
+  services:
+    plex_service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.84:30013"
+
+  middlewares:
+    headers-plex:
+      headers:
+        customRequestHeaders:
+          Host: "plex.thibaut-husser.com"
+        contentTypeNosniff: true
+
+    redirect-plex-web:
+      redirectRegex:
+        regex: "^http://(.*)/$"
+        replacement: "http://$1/web/index.html#!"
+        permanent: true

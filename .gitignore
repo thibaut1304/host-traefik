@@ -7,4 +7,5 @@
 **/*.crt
 **/*.key
 rules-selinux/
-secrest.yml
+secret.yml
+**/ansible.cfg

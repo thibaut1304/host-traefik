@@ -1,7 +1,7 @@
 http:
   routers:
     proxmox:
-      rule: "Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`)"
+      rule: "Host(`proxmox.thibaut-husser.com`, `www.proxmox.thibaut-husser.com`, `proxmox.thusser.com`, `www.proxmox.thusser.com`)"
       entryPoints:
         - websecure
       service: proxmox_service

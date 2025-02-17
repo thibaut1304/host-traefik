@@ -10,6 +10,7 @@ declare -a VARS_DDNS=(
     "PROVIDER"
     "ZONE_IDENTIFIER"
     "DOMAIN"
+    "DOMAIN2"
     "TOKEN"
 )
 
@@ -44,9 +45,9 @@ for VAR in "${VARS_APP[@]}"; do
     fi
 done
 
-ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${IP_ADDRESS}"
-ssh-copy-id "${USERNAME}@${IP_ADDRESS}"
+# ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${IP_ADDRESS}"
+# ssh-copy-id "${USERNAME}@${IP_ADDRESS}"
 
-ansible-playbook -i hosts.yml deploy-traefik.yml -K
+# ansible-playbook -i hosts.yml deploy-traefik.yml --ask-vault-pass
 # ansible-playbook -i hosts.yml deploy-ddns.yml -K
 

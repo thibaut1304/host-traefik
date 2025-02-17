@@ -1,7 +1,7 @@
 http:
   routers:
     nextcloud:
-      rule: "Host(`nextcloud.thibaut-husser.com`, `www.nextcloud.thibaut-husser.com`)"
+      rule: "Host(`nextcloud.thibaut-husser.com`, `www.nextcloud.thibaut-husser.com`, `nextcloud.thusser.com`, `www.nextcloud.thusser.com`)"
       entryPoints:
         - websecure
       service: nextcloud_service
@@ -12,7 +12,7 @@ http:
         - "nextcloud-dav"
         - "redirect-to-https-nextcloud"
         - "secure-headers"
-        
+
   services:
     nextcloud_service:
       loadBalancer:
