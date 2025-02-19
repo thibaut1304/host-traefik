@@ -1,0 +1,6 @@
+http:
+  middlewares:
+    auth-webhook:
+      headers:
+        customRequestHeaders:
+          Authorization: "Bearer PCiofMlfLJmMzcgcFOS9luw7cOWbGahP94T/hrbHEYU="

@@ -1,0 +1,35 @@
+http:
+  routers:
+    homeassistant:
+      rule: "Host(`ha.thibaut-husser.com`)"
+      entryPoints:
+        - websecure
+      service: homeassistant_service
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers-homeassistant
+        - secure-headers-ha
+        - auth-webhook
+
+  services:
+    homeassistant_service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.48:8123"
+        passHostHeader: true
+
+  middlewares:
+    headers-homeassistant:
+      headers:
+        customRequestHeaders:
+          Host: "ha.thibaut-husser.com"
+        contentTypeNosniff: true
+
+    secure-headers-ha:
+      headers:
+        stsSeconds: 15552000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        contentTypeNosniff: true
+        browserXssFilter: true

@@ -59,6 +59,18 @@ services:
       - "traefik.http.routers.main-domain.tls=false"
       - "traefik.http.routers.main-domain.service=noop@internal"
 
+      ## Homeassistant test labels
+      # - "traefik.http.routers.homeassistant.rule=Host(`ha.thibaut-husser.com`)"
+      # - "traefik.http.routers.homeassistant.entrypoints=https"
+      # - "traefik.http.routers.homeassistant.tls=true"
+      # # - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+      # - "traefik.http.services.homeassistant.loadbalancer.servers.url=http://192.168.1.48:8123"
+      # - "traefik.http.routers.homeassistant.middlewares=hstsHeader"
+      # - "traefik.http.middlewares.hstsHeader.headers.stsSeconds=15552000"
+      # - "traefik.http.middlewares.hstsHeader.headers.stsIncludeSubdomains=true"
+      # - "traefik.http.middlewares.hstsHeader.headers.stsPreload=true"
+      # - "traefik.http.routers.traefik.middlewares=hstsHeader"
+
   nginx-cv:
     image: nginx:1.25.2
     restart: unless-stopped
