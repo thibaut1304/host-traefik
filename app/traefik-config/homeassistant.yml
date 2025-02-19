@@ -10,7 +10,6 @@ http:
       middlewares:
         - headers-homeassistant
         - secure-headers-ha
-        - auth-webhook
 
   services:
     homeassistant_service:
