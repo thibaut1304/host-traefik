@@ -23,10 +23,10 @@
         name: rsync
         state: present
 
-    # - name: Supprimer le dossier grafana avant copie
-    #   file:
-    #     path: "/home/{{ ansible_ssh_user }}/traefik-host/grafana"
-    #     state: absent
+    - name: Supprimer le dossier grafana avant copie
+      file:
+        path: "/home/{{ ansible_ssh_user }}/traefik-host/grafana"
+        state: absent
 
     - name: Copying app in ubuntu-docker
       become: false
@@ -34,17 +34,18 @@
         src: ./app/
         dest: "/home/{{ ansible_ssh_user }}/traefik-host"
         rsync_opts:
+          - "--delete"
           - "--exclude=certificates/acme.json"
           - "--exclude=certificates/acme-home.json"
           # - "--chown=thibaut:thibaut"
 
-    # - name: Fix permissions on Grafana data folder
-    #   file:
-    #     path: "/home/{{ ansible_ssh_user }}/traefik-host/grafana"
-    #     owner: 472
-    #     group: 472
-    #     mode: '0755'
-    #     recurse: yes
+    - name: Fix permissions on Grafana data folder
+      file:
+        path: "/home/{{ ansible_ssh_user }}/traefik-host/grafana"
+        owner: 472
+        group: 472
+        mode: '0755'
+        recurse: yes
 
     - name: Check if certificates/acme.json exists and is not empty
       become: false
