@@ -1,0 +1,7 @@
+http:
+  middlewares:
+    force-real-ip:
+      headers:
+        customRequestHeaders:
+          X-Real-IP: "{remote_ip}"
+          X-Forwarded-For: "{remote_ip}"

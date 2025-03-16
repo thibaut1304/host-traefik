@@ -8,6 +8,7 @@ http:
       tls:
         certresolver: letsencrypt-flare
       middlewares:
+        - add-xss-header
         - headers-vaultwarden
         - compress
         - websocket
@@ -25,3 +26,8 @@ http:
         customRequestHeaders:
           Host: "bitwarden.thibaut-husser.com"
         contentTypeNosniff: true
+    
+    add-xss-header:
+      headers:
+        customResponseHeaders:
+          X-XSS-Protection: "0"

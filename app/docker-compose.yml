@@ -18,8 +18,12 @@ services:
       - CF_API_EMAIL=${CF_API_EMAIL}
       - CF_API_KEY=${CF_API_TOKEN}
     command:
+      # - "--entrypoints.websecure.forwardedHeaders.trustedIPs=192.168.1.0/24,172.16.0.0/12,127.0.0.1/32"
+      # - "--entrypoints.websecure.forwardedHeaders.insecure=true"
+      # - "--entrypoints.web.forwardedHeaders.insecure=true"
       - "--log.filePath=/var/log/traefik/traefik-service.log"
-      - "--log.level=info"
+      - "--log.level=debug"
+      - "--api=true"
       - "--api.insecure=false"
       - "--api.dashboard=true"
       - "--entrypoints.web.address=:80"
@@ -50,14 +54,14 @@ services:
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt-flare"
       # - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       # - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
-      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.routers.dashboard.middlewares=local-only@file,auth"
       - "traefik.http.middlewares.auth.basicauth.users=${AUTH_USER}"
 
       ## Gestion domaine principale - Desactivation
-      - "traefik.http.routers.main-domain.rule=Host(`thibaut-husser.com`)"
-      - "traefik.http.routers.main-domain.entrypoints=web,websecure"
-      - "traefik.http.routers.main-domain.tls=false"
-      - "traefik.http.routers.main-domain.service=noop@internal"
+      # - "traefik.http.routers.main-domain.rule=Host(`thibaut-husser.com`)"
+      # - "traefik.http.routers.main-domain.entrypoints=web,websecure"
+      # - "traefik.http.routers.main-domain.tls=false"
+      # - "traefik.http.routers.main-domain.service=noop@internal"
 
       ## Homeassistant test labels
       # - "traefik.http.routers.homeassistant.rule=Host(`ha.thibaut-husser.com`)"
@@ -85,4 +89,16 @@ services:
       # - "traefik.http.routers.nginx-cv.middlewares=nginx-redirect-to-https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.scheme=https"
       # - "traefik.http.middlewares.nginx-redirect-to-https.redirectscheme.permanent=true"
-
+  homer:
+    image: b4bz/homer
+    container_name: homer
+    restart: unless-stopped
+    volumes:
+      - ./homer:/www/assets
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homer.rule=Host(`thibaut-husser.com`)"
+      - "traefik.http.routers.homer.entrypoints=websecure"
+      - "traefik.http.routers.homer.tls.certresolver=letsencrypt-flare"
+      - "traefik.http.services.homer.loadbalancer.server.port=8080"
+      - "traefik.http.routers.homer.middlewares=redirect-plex@file,redirect-nas@file,local-only@file,secure-headers@file,compress@file,force-real-ip@file"

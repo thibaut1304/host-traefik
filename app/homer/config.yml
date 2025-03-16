@@ -1,0 +1,118 @@
+---
+title: "Thibaut's Dashboard"
+subtitle: "Tous mes services accessibles"
+icon: "fas fa-cloud"
+
+header: false
+footer: false
+stylesheet:
+  - "assets/custom.css"
+
+columns: "3" # You can change this to any number that is a factor of 12: (1, 2, 3, 4, 6, 12)
+theme: default
+colors:
+  light:
+    highlight-primary: "#fff5f2"
+    highlight-secondary: "#fff5f2"
+    highlight-hover: "#bebebe"
+    background: "#12152B"
+    card-background: "rgba(255, 245, 242, 0.8)"
+    text: "#ffffff"
+    text-header: "#fafafa"
+    text-title: "#000000"
+    text-subtitle: "#111111"
+    card-shadow: rgba(0, 0, 0, 0.5)
+    link: "#3273dc"
+    link-hover: "#2e4053"
+    background-image: "../assets/light/11-0-Day.jpg" # Change wallpaper.jpeg to the name of your own custom wallpaper!
+    # background-image: "../assets/wallpaper-light.jpeg" # Change wallpaper.jpeg to the name of your own custom wallpaper!
+  dark:
+    highlight-primary: "#181C3A"
+    highlight-secondary: "#181C3A"
+    highlight-hover: "#1F2347"
+    background: "#12152B"
+    card-background: "rgba(24, 28, 58, 0.8)"
+    text: "#eaeaea"
+    text-header: "#7C71DD"
+    text-title: "#fafafa"
+    text-subtitle: "#8B8D9C"
+    card-shadow: rgba(0, 0, 0, 0.5)
+    link: "#c1c1c1"
+    link-hover: "#fafafa"
+    background-image: "../assets/dark/11-0-Night.jpg" # Change wallpaper.jpeg to the name of your own custom wallpaper!
+    # background-image: "../assets/wallpaper.jpeg"
+
+services:
+  - name: "Admin"
+    icon: "fas fa-cogs"
+    items:
+      - name: "Traefik"
+        logo: "assets/icons/traefik.png"
+        url: "https://traefik.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+      - name: "Portainer"
+        logo: "assets/icons/portainer.png"
+        url: "https://portainer.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+      - name: "Proxmox"
+        logo: "assets/icons/proxmox.png"
+        url: "https://proxmox.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+
+  - name: "Stockage & Cloud"
+    icon: "fas fa-hdd"
+    items:
+      - name: "Nextcloud"
+        logo: "assets/icons/nextcloud.png"
+        url: "https://nextcloud.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+      - name: "NAS"
+        subtitle: "TrueNAS"
+        logo: "assets/icons/truenas.png"
+        url: "https://nas.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+      - name: "Bitwarden"
+        subtitle: "(Vaultwarden)"
+        logo: "assets/icons/bitwarden.png"
+        url: "https://bitwarden.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+
+  - name: "Média"
+    icon: "fas fa-film"
+    items:
+      - name: "Jellyfin"
+        logo: "assets/icons/jellyfin.png"
+        url: "https://plex.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+
+  - name: "Développement"
+    icon: "fas fa-code"
+    items:
+      - name: "Swagger API"
+        subtitle: "Adam's bot"
+        logo: "assets/icons/adam-bot-512.png"
+        url: "https://adam-doc.thusser.com"
+        tag: "thusser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"
+      - name: "Matrix"
+        subtitle: "Matrix server"
+        logo: "assets/icons/matrix-logo.png"
+        url: "https://matrix.thibaut-husser.com"
+        tag: "thibaut-husser.com"
+        tagstyle: "is-primary" # This will display the is-primary color! Try changing it to; is-link, is-info, is-success, is-warning or is-danger!
+        target: "_blank"

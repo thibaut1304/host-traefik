@@ -1,0 +1,66 @@
+# Configuration globale de Homer
+title: "Thibaut's Dashboard"
+subtitle: "Tous mes services accessibles"
+logo: "https://thibaut-husser.com/logo.png"
+icon: "fas fa-cloud"
+theme: "default"
+footer: false
+colors:
+  primary: "#000000"
+  secondary: "#1E1E1E"
+  background: "#F0F0F0"
+  card-background: "#FFFFFF"
+
+services:
+  - name: "Admin"
+    icon: "fas fa-cogs"
+    items:
+      - name: "Traefik"
+        logo: "assets/icons/traefik.png"
+        url: "https://traefik.thibaut-husser.com"
+        target: "_blank"
+      - name: "Portainer"
+        logo: "assets/icons/portainer.png"
+        url: "https://portainer.thibaut-husser.com"
+        target: "_blank"
+      - name: "Proxmox"
+        logo: "assets/icons/proxmox.png"
+        url: "https://proxmox.thibaut-husser.com"
+        target: "_blank"
+
+  - name: "Stockage & Cloud"
+    icon: "fas fa-hdd"
+    items:
+      - name: "Nextcloud"
+        logo: "assets/icons/nextcloud.png"
+        url: "https://nextcloud.thibaut-husser.com"
+        target: "_blank"
+      - name: "NAS (TrueNAS)"
+        logo: "assets/icons/truenas.png"
+        url: "https://nas.thibaut-husser.com"
+        target: "_blank"
+      - name: "Bitwarden (Vaultwarden)"
+        logo: "assets/icons/bitwarden.png"
+        url: "https://bitwarden.thibaut-husser.com"
+        target: "_blank"
+
+  - name: "Média"
+    icon: "fas fa-film"
+    items:
+      - name: "Jellyfin"
+        logo: "assets/icons/jellyfin.png"
+        url: "https://plex.thibaut-husser.com"
+        target: "_blank"
+
+  - name: "Développement"
+    icon: "fas fa-code"
+    items:
+      - name: "Swagger API (Adam)"
+        logo: "assets/icons/adam-bot-512.png"
+        url: "https://adam-doc.thusser.com"
+        target: "_blank"
+      - name: "Matrix"
+        logo: "assets/icons/matrix-logo.png"
+        url: "https://matrix.thibaut-husser.com"
+        target: "_blank"
+

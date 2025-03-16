@@ -1,0 +1,26 @@
+http:
+  routers:
+    adam:
+      rule: "Host(`adam-doc.thusser.com`)"
+      entryPoints:
+        - websecure
+      service: swagger-doc
+      tls:
+        certresolver: letsencrypt-flare
+      middlewares:
+        - headers-swagger
+        - compress
+        - secure-headers
+
+  services:
+    swagger-doc:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.93:8881"
+
+  middlewares:
+    headers-swagger:
+      headers:
+        customRequestHeaders:
+          Host: "adam-doc.thusser.com"
+        contentTypeNosniff: true

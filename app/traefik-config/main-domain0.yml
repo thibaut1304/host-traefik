@@ -1,0 +1,13 @@
+http:
+  middlewares:
+    redirect-plex:
+      redirectRegex:
+        regex: "^https://thibaut-husser.com/(plex|jellyfin)"
+        replacement: "https://plex.thibaut-husser.com"
+        permanent: true
+
+    redirect-nas:
+      redirectRegex:
+        regex: "^https://thibaut-husser.com/nas(.*)"
+        replacement: "https://nas.thibaut-husser.com$1"
+        permanent: true
