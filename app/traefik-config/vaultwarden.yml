@@ -1,7 +1,7 @@
 http:
   routers:
     vaultwarden:
-      rule: "Host(`bitwarden.thibaut-husser.com`, `www.bitwarden.thibaut-husser.com`)"
+      rule: "Host(`bitwarden.thibaut-husser.com`) || Host(`www.bitwarden.thibaut-husser.com`)"
       entryPoints:
         - websecure
       service: vaultwarden_service

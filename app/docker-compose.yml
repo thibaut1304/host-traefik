@@ -1,8 +1,6 @@
-version: '3'
-
 services:
   traefik:
-    image: "traefik:v2.5"
+    image: "traefik:latest"
     restart: unless-stopped
     container_name: "traefik"
     ports:
@@ -49,7 +47,7 @@ services:
         # Dashboard
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.thibaut-husser.com`, `www.traefik.thibaut-husser.com`)"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.thibaut-husser.com`) || Host(`www.traefik.thibaut-husser.com`)"
       - "traefik.http.routers.dashboard.entrypoints=web, websecure"
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt-flare"
       # - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
@@ -83,7 +81,7 @@ services:
       - ./nginx/cv:/usr/share/nginx/html
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx-cv.rule=Host(`cv.thibaut-husser.com`, `www.cv.thibaut-husser.com`)"
+      - "traefik.http.routers.nginx-cv.rule=Host(`cv.thibaut-husser.com`) || Host(`www.cv.thibaut-husser.com`)"
       - "traefik.http.routers.nginx-cv.entrypoints=web,websecure"
       - "traefik.http.routers.nginx-cv.tls.certresolver=letsencrypt-flare"
       # - "traefik.http.routers.nginx-cv.middlewares=nginx-redirect-to-https"

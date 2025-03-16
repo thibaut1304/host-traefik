@@ -1,7 +1,7 @@
 http:
   routers:
     matrix:
-      rule: "Host(`matrix.thibaut-husser.com`, `www.matrix.thibaut-husser.com`)"
+      rule: "Host(`matrix.thibaut-husser.com`) || Host(`www.matrix.thibaut-husser.com`)"
       entryPoints:
         - websecure
       service: matrix_service

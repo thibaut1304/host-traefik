@@ -1,7 +1,7 @@
 http:
   routers:
     nextcloud:
-      rule: "Host(`nextcloud.thibaut-husser.com`, `www.nextcloud.thibaut-husser.com`, `nextcloud.thusser.com`, `www.nextcloud.thusser.com`)"
+      rule: "Host(`nextcloud.thibaut-husser.com`) || Host(`www.nextcloud.thibaut-husser.com`) || Host(`nextcloud.thusser.com`) || Host(`www.nextcloud.thusser.com`)"
       entryPoints:
         - websecure
       service: nextcloud_service

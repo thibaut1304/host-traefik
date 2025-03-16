@@ -1,7 +1,7 @@
 http:
   routers:
     vpn:
-      rule: "Host(`vpn.thibaut-husser.com`, `www.vpn.thibaut-husser.com`, `vpn.thusser.com`, `www.vpn.thusser.com`)"
+      rule: "Host(`vpn.thibaut-husser.com`) || Host(`www.vpn.thibaut-husser.com`) || Host(`vpn.thusser.com`) || Host(`www.vpn.thusser.com`)"
       entryPoints:
         - websecure
       service: vpn_service

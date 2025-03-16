@@ -1,7 +1,7 @@
 http:
   routers:
     plex:
-      rule: "Host(`plex.thibaut-husser.com`, `www.plex.thibaut-husser.com`, `plex.thusser.com`, `www.plex.thusser.com`)"
+      rule: "Host(`plex.thibaut-husser.com`) || Host(`www.plex.thibaut-husser.com`) || Host(`plex.thusser.com`) || Host(`www.plex.thusser.com`)"
       entryPoints:
         - websecure
       service: plex_service
