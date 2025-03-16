@@ -1,0 +1,15 @@
+## traefik-config/traefik.yml
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+metrics:
+  prometheus:
+    entryPoint: "metrics"
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+
+entryPoints:
+  metrics:
+    address: ":8082"

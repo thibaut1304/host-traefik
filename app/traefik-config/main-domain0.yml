@@ -2,8 +2,8 @@ http:
   middlewares:
     redirect-plex:
       redirectRegex:
-        regex: "^https://thibaut-husser.com/(plex|jellyfin)"
-        replacement: "https://plex.thibaut-husser.com"
+        regex: "^https://thibaut-husser.com/(plex|jellyfin)(/?.*)"
+        replacement: "https://plex.thibaut-husser.com$2"
         permanent: true
 
     redirect-nas:
